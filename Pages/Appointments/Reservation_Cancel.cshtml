@@ -1,0 +1,76 @@
+﻿@page
+@model TutoringSys_core.Pages.Appointments.Reservation_CancelModel
+@{
+    if (Model.role == "Student")
+    {
+        Layout = "_DashLayout";
+    }
+    if (Model.role == "Tutor")
+    {
+        Layout = "_TutorDashLayout";
+    }
+}
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <form method="post">
+        <h3>Session Details</h3>
+        <hr />
+        <div class="row justify-content-start">
+            <div class="d-flex flex-column mb-2">
+                <label class="fs-4 fw-bold">Course</label>
+                <div class="row">
+                    <div class="col-3">
+                        <label class=" me-1">Code:</label>
+                        <label>@Model.code</label>
+                    </div>
+                    <div class="col-4">
+                        <label class=" me-1">Name:</label>
+                        <label>@Model.cname</label>
+                    </div>
+                    <div class="col-4">
+                        <label class=" me-1">Credits:</label>
+                        <label>@Model.cred</label>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.role == "Student")
+            {
+                <div class="d-flex flex-column mb-2">
+                    <label class="fs-4 fw-bold">Tutor</label>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class=" me-1">Name:</label>
+                            <label>@Model.tname</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.role == "Tutor")
+            {
+                <div class="d-flex flex-column mb-2">
+                    <label class="fs-4 fw-bold">Student</label>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class=" me-1">Name:</label>
+                            <label>@Model.sname</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="d-flex flex-column mb-2">
+                <label class="fs-4 fw-bold">Date & Time</label>
+                <div class="row">
+                    <div class="col-4">
+                        <label class=" me-1">On:</label>
+                        <label>@Model.date</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row justify-content-end">
+            <button type="submit" class="col-3 btn btn-danger">Cancel Session</button>
+        </div>
+
+    </form>
+</div>

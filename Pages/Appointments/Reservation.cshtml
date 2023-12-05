@@ -1,0 +1,76 @@
+﻿@page
+@model TutoringSys_core.Pages.Reservation.ReservationModel
+@{
+    Layout = "_DashLayout";
+
+}
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <form method="post">
+        <h3>Session Details</h3>
+        <hr />
+        <div class="row justify-content-start">
+            <div class="d-flex flex-column mb-2">
+                <label class="fs-4 fw-bold">Course</label>
+                <div class="row">
+                    <div class="col-3">
+                        <label class=" me-1">Code:</label>
+                        <label>@Model.code</label>
+                    </div>
+                    <div class="col-4">
+                        <label class=" me-1">Name:</label>
+                        <label>@Model.cname</label>
+                    </div>
+                    <div class="col-4">
+                        <label class=" me-1">Credits:</label>
+                        <label>@Model.cred</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column mb-2">
+                <label class="fs-4 fw-bold">Tutor</label>
+                <div class="row">
+                    <div class="col-4">
+                        <label class=" me-1">Name:</label>
+                        <label>@Model.tname</label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column mb-2">
+                <label class="fs-4 fw-bold">Date & Time</label>
+                <div class="row">
+                    <div class="col-4">
+                        <label class=" me-1">On:</label>
+                        <label>@Model.date</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row justify-content-end">
+            <button type="submit" class="col-sm-3 btn btn-success">Reserve Session</button>
+        </div>
+
+    </form>
+</div>
+
+@* POPUP FORM *@
+<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLabel">Session Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailsModalBody">
+                <p>Session Reservation Complete!</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" >
+                    <button type="submit" class="btn btn-primary" asp-page="/Pages/Reserved">Ok</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>

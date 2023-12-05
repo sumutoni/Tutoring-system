@@ -1,0 +1,49 @@
+﻿@page
+@model TutoringSys_core.Pages.Dashboard.Tutor_dashModel
+@{
+    Layout = "_TutorDashLayout";
+    var availables = from available in @Model.db.AvailableSessions
+                     join tutor in @Model.db.Tutors on available.TutorId equals tutor.TrId
+                     join course in @Model.db.Courses on available.CourseCode equals course.Code
+                     where tutor.TrId == Model.user_id
+                     select new
+                     {
+
+                         id = available.Id,
+                         ccode = course.Code,
+                         cname = course.Name,
+                         cred = course.Credit,
+                         date = available.DateTime
+                     };
+}
+<body>
+
+    @* GREETING SECTION *@
+    <div class="row container-md">
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-2 custom-color">Available Sessions</h2>
+        </div>
+    </div>
+
+    @* AVAILABLE SESSIONS SECTION *@
+    <div style="height: 500px; border-radius:10px;overflow:auto" class="d-flex flex-column align-items-center pt-1">
+
+        @foreach (var item in availables)
+        {
+            <div class="card mb-3 shadow" style="width: 100%; border-radius:10px;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.cname</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Code: @item.ccode      Credits: @item.cred      Date&Time: @item.date</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+

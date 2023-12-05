@@ -1,0 +1,93 @@
+﻿@page
+@model TutoringSys_core.Pages.Cruds.Edit_pageModel
+@{
+    Layout = "_AdminLayout";
+    var availables = from course in @Model.db.Courses
+                     join tutoring in @Model.db.Tutorings on course.Code equals tutoring.CourseCode
+                     where tutoring.TutorId == Model.item_id
+                     select new
+                     {
+                         ccode = course.Code,
+                         cname = course.Name,
+                     };
+}
+<div>
+    <div class="w-100 d-flex justify-content-start align-items-center">
+        <a class="fs-5 ms-4 mb-2" href="/Cruds/View_page?layout=@Model.layout"><i class="bi bi-arrow-left"></i>Back</a>
+    </div>
+</div>
+<div style="border-radius:10px; overflow:auto;" class="bg-white p-2">
+    @if (Model.layout == "tutor")
+    {
+        <h3 class="fw-bold">Tutor Information</h3>
+        <form method="post" class="p-3">
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_id">Tutor ID</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6  p-2 border-secondary mb-3 rounded" id="tr_id" name="tr_id" value="@Model.tutor_id"/>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_name">Tutor Name</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="tr_name" name="tr_name" value="@Model.tutor_name" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_email">Email</label>
+            </div>
+            <div class="row">
+                <input type="email" class="col-6 p-2 border-secondary mb-3 rounded" id="tr_email" name="tr_email" value="@Model.tutor_email" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="courses">Courses (Select to delete)</label>
+            </div>
+            <div class="row">
+                <select class="col-6 p-2 border-secondary mb-3 rounded" id="courses" name="courses" multiple>
+                    
+                    @foreach (var course in availables)
+                    {
+                        <option value="@course.ccode">@course.cname</option>
+                    }
+
+                </select>
+
+            </div>
+            <div class="row">
+                <button type="submit" name="delete_course" asp-page-handler="delete_course" class="btn btn-danger col-3 me-2">Delete Course</button>
+                <button type="submit" name="update_info" asp-page-handler="update_info" class="btn btn-info col-3">Update Info</button>
+            </div>
+        </form>
+    }
+    @if (Model.layout == "session")
+    {
+        <h2 class="fw-bold">Sessions</h2>
+    }
+    @if (Model.layout == "course")
+    {
+        <h3 class="fw-bold">Course Details</h3>
+        <form method="post" class="p-3">
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_id">Course Code</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_id" name="cr_id" value="@Model.course_code"/>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Course Name</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_name" name="cr_name" value="@Model.course_name"/>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Credits</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_cred" name="cr_cred" value="@Model.credit"/>
+            </div>
+            <div class="row">
+                <button type="submit" name="save_course" asp-page-handler="Save_course" class="btn btn-primary col-2">Save</button>
+            </div>
+        </form>
+    }
+</div>

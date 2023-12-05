@@ -1,0 +1,96 @@
+﻿@page
+@model TutoringSys_core.Pages.Cruds.View_pageModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="w-100 d-flex">
+    <div class="w-50 d-flex justify-content-start align-items-center">
+        @if (Model.layout == "tutor")
+        {
+            <h2 class="fw-bold">Tutors</h2>
+        }
+        @if (Model.layout == "session")
+        {
+            <h2 class="fw-bold">Sessions</h2>
+        }
+        @if (Model.layout == "course")
+        {
+            <h2 class="fw-bold">Courses</h2>
+        }
+    </div>
+    <div class="w-50 d-flex justify-content-end align-items-center">
+        <a class="btn btn-primary fs-5 ms-4 mb-2" href="/Cruds/Create_page?layout=@Model.layout">Add<i class="bi bi-plus text-white"></i></a>
+    </div>
+    
+</div>
+<div style ="border-radius:10px; overflow:auto;" class="bg-light d-flex flex-column align-items-center">
+    @if (Model.layout == "tutor")
+    {
+        @foreach (var item in Model.tutors)
+        {
+            <div class="card " style="width: 100%;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.TrId - @item.Fullnames</h5>
+                        
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+
+                        <a class="btn btn-sm btn-primary" href="/Cruds/Edit_page?id=@item.TrId&layout=@Model.layout">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (Model.layout == "session")
+    {
+        var availables = from available in @Model.db.AvailableSessions
+                         join tutor in @Model.db.Tutors on available.TutorId equals tutor.TrId
+                         join course in @Model.db.Courses on available.CourseCode equals course.Code
+                         select new
+                         {
+
+                             id = available.Id,
+                             ccode = course.Code,
+                             cname = course.Name,
+                             cred = course.Credit,
+                             tname = tutor.Fullnames,
+                             date = available.DateTime
+                         };
+        @foreach (var item in availables)
+        {
+            <div class="card" style="width: 100%;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">Session ID: @item.id - @item.cname </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">On: @item.date</h6>
+
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+
+                        <a class="btn btn-sm btn-primary h-75 pt-2" href="/Cruds/Edit_page?id=@item.id&layout=@Model.layout">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (Model.layout == "course")
+    {
+        @foreach (var item in Model.courses)
+        {
+            <div class="card " style="width: 100%;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.Code - @item.Name</h5>
+
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+
+                        <a class="btn btn-sm btn-primary" href="/Cruds/Edit_page?id=@item.Code&layout=@Model.layout">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

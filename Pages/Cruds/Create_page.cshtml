@@ -1,0 +1,108 @@
+﻿@page
+@model TutoringSys_core.Pages.Cruds.Create_pageModel
+@{
+    Layout = "_AdminLayout";
+}
+<div>
+    <div class="w-100 d-flex justify-content-start align-items-center">
+        <a class="fs-5 ms-4 mb-2" href="/Cruds/View_page?layout=@Model.layout"><i class="bi bi-arrow-left me-2"></i>Back</a>
+    </div>
+</div>
+<div style="border-radius:10px; overflow:auto;" class="bg-white p-2">
+    @if (Model.layout == "tutor")
+    {
+        <h3 class="fw-bold">Tutor Information</h3>
+        <form method="post" class="p-3">
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_id">Tutor ID</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6  p-2 border-secondary mb-3 rounded" id="tr_id" name="tr_id"/>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_name">Tutor Name</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="tr_name" name="tr_name" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="tr_email">Email</label>
+            </div>
+            <div class="row">
+                <input type="email" class="col-6 p-2 border-secondary mb-3 rounded" id="tr_email" name="tr_email" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="courses">Courses (Select all applicable)</label>
+            </div>
+            <div class="row">
+                <select class="col-6 p-2 border-secondary mb-3 rounded" id="courses" name="courses" multiple>
+                    @foreach(var course in Model.courses)
+                    {
+                        <option value="@course.Code">@course.Name</option>
+                    }
+                    
+                </select>
+                
+            </div>
+            <div class="row">
+                <button type="submit" name="save_tutor" asp-page-handler="Save_tutor" class="btn btn-primary col-2">Save</button>
+            </div>
+        </form>
+    }
+    @if (Model.layout == "session")
+    {
+        <h3 class="fw-bold">Session Details</h3>
+        <form method="post" class="p-3">
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_id">Select course</label>
+            </div>
+            <div class="row">
+                <select class="col-6 p-2 border-secondary mb-3 rounded" id="courses1" name="courses1" asp-items="@(new SelectList(Model.courses, "Code", "Name"))">
+                </select>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Select Tutor</label>
+            </div>
+            <div class="row">
+                <select class="col-6 p-2 border-secondary mb-3 rounded" id="tutors" name="tutors" asp-items="@(new SelectList(Model.tutors, "TrId", "Fullnames"))">
+                </select>
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Date & Time</label>
+            </div>
+            <div class="row">
+                <input type="datetime-local" class="col-6 p-2 border-secondary mb-3 rounded" id="date_time" name="date_time" />
+            </div>
+            <div class="row">
+                <button type="submit" name="save_course" asp-page-handler="Save_session" class="btn btn-primary col-2">Save</button>
+            </div>
+        </form>
+    }
+    @if (Model.layout == "course")
+    {
+        <h3 class="fw-bold">Course Details</h3>
+        <form method="post" class="p-3">
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_id">Course Code</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_id" name="cr_id" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Course Name</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_name" name="cr_name" />
+            </div>
+            <div class="row">
+                <label class="col-12 fw-bold fs-5" for="cr_name">Credits</label>
+            </div>
+            <div class="row">
+                <input type="text" class="col-6 p-2 border-secondary mb-3 rounded" id="cr_cred" name="cr_cred" />
+            </div>
+            <div class="row">
+                <button type="submit" name="save_course" asp-page-handler="Save_course" class="btn btn-primary col-2">Save</button>
+            </div>
+        </form>
+    }
+</div>

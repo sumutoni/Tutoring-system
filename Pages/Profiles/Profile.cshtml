@@ -1,0 +1,76 @@
+﻿@page
+@model TutoringSys_core.Pages.Profile.ProfileModel
+@{
+    if (Model.role == "Student")
+    {
+        Layout = "_DashLayout";
+    }
+    if (Model.role == "Tutor")
+    {
+        Layout = "_TutorDashLayout";
+    }
+}
+<div class="d-flex flex-column h-100">
+    <form method="post">
+        <h2 class="fw-bold mb-4 custom-color">Profile</h2>
+        <div class="d-flex flex-column justify-content-start bg-white p-3">
+
+            <div class="row mb-2">
+                <label class=" col-1 text-secondary fw-bold">Names</label>
+                <input type="text" class="rounded p-2 col-md-4 fw-bold ms-2" value="@Model.user_names" disabled>
+            </div>
+            <div class="row mb-2">
+                <label class="col-1 text-secondary fw-bold">ID</label>
+                <input type="text" class="rounded p-2 col-md-4 fw-bold ms-2" value="@Model.user_id" disabled>
+            </div>
+            @if (Model.role == "Tutor")
+            {
+                <div class="mb-3 row">
+                    <label class="col-1 text-secondary fw-bold">Email</label>
+                    <input type="text" class="rounded p-2 col-md-4 fw-bold ms-2" value="@Model.email">
+
+                </div>
+                <div class="btn-group w-50">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="col-sm-3 btn btn-info me-2">Reset Password</button>
+                    <button type="submit" class="col-sm-3 btn btn-warning ms-2">Save Changes</button>
+                </div>
+            }
+            @if (Model.role == "Student")
+            {
+                <button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="col-sm-3 mt-3 btn btn-info me-2">Reset Password</button>
+            }
+
+
+            
+        </div>
+
+    </form>
+</div>
+<div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLabel">Password Reset</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body" id="detailsModalBody">
+                    <div class="d-flex flex-column mb-2">
+                        <label for="new_pass" class="text-secondary fw-bold">New Password</label>
+                        <input type="password" id="new_pass" name="new_pass" class="rounded p-2 fw-bold ms-2">
+                    </div>
+                    <div class="d-flex flex-column mb-2">
+                        <label class=" text-secondary fw-bold" for="conf_pass">Confirm Password</label>
+                        <input type="password" class="rounded p-2 fw-bold ms-2" id="conf_pass" name="conf_pass">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Password</button>
+                </div>
+            </form>
+
+            
+        </div>
+    </div>
+</div>

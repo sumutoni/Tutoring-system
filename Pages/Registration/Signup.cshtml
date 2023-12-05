@@ -1,0 +1,44 @@
+﻿@page
+@model TutoringSys_core.Pages.Registration.SignupModel
+@{
+}
+<form method="post" class="form container mt-5">
+    <h1 class="text-center custom-color">Student Signup</h1>
+    <div class="my-3 row justify-content-center">
+        @if (Model.err_message.Length > 0)
+        {
+            <div class="alert alert-danger col-md-4 d-flex justify-content-between">
+                <label class="text-center">@Model.err_message</label>
+                <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (Model.success_message.Length > 0) 
+        {
+            <div class="alert alert-success col-md-5 d-flex justify-content-between">
+                <label class="text-center">@Model.success_message</label>
+                <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
+    <div class="mt-3 row justify-content-center">
+        <div class=" col-md-3 justify-content-center">
+            <label for="student_id">Student ID</label>
+            <input type="text" id="student_id" name="student_id" class="form-control" required>
+        </div>
+    </div>
+    <div class="mt-2 row justify-content-center">
+        <div class=" col-md-3 justify-content-center">
+            <label for="fullnames">Full names</label>
+            <input type="text" id="fullnames" name="fullnames" class="form-control" required>
+        </div>
+    </div>
+    <div class="mt-2 row justify-content-center">
+        <div class=" col-md-3 justify-content-center">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required />
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">    
+        <button class="btn custom-bg text-white col-md-1" type="submit" OnClick="">Signup</button>
+    </div>
+</form>

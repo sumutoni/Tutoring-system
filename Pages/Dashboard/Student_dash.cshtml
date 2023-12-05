@@ -1,0 +1,113 @@
+﻿@page
+@model TutoringSys_core.Pages.Dashboard.Student_dashModel
+@{
+    Layout = "_DashLayout";
+    var availables = from available in @Model.db.AvailableSessions
+                     join tutor in @Model.db.Tutors on available.TutorId equals tutor.TrId
+                     join course in @Model.db.Courses on available.CourseCode equals course.Code
+                     select new
+                     {
+
+                         id = available.Id,
+                         ccode = course.Code,
+                         cname = course.Name,
+                         cred = course.Credit,
+                         tname = tutor.Fullnames,
+                         date = available.DateTime
+                     };
+    var availables_c = from available in @Model.db.AvailableSessions
+                       join tutor in @Model.db.Tutors on available.TutorId equals tutor.TrId
+                       join course in @Model.db.Courses on available.CourseCode equals course.Code
+                       where available.CourseCode == Model.search_text
+                       select new
+                       {
+
+                           id = available.Id,
+                           ccode = course.Code,
+                           cname = course.Name,
+                           cred = course.Credit,
+                           tname = tutor.Fullnames,
+                           date = available.DateTime
+                       };
+    var availables_cc = from available in @Model.db.AvailableSessions
+                        join tutor in @Model.db.Tutors on available.TutorId equals tutor.TrId
+                        join course in @Model.db.Courses on available.CourseCode equals course.Code
+                        where course.Name == Model.search_text
+                        select new
+                        {
+
+                            id = available.Id,
+                            ccode = course.Code,
+                            cname = course.Name,
+                            cred = course.Credit,
+                            tname = tutor.Fullnames,
+                            date = available.DateTime
+                        };
+
+}
+<body>
+
+    @* GREETING SECTION *@
+    <div class="row container-md">
+        <div class="col-md-6">
+            <h2 class="fs-2 fw-bold mb-2 custom-color">Available Sessions</h2>
+        </div>
+    </div>
+
+    @* AVAILABLE SESSIONS SECTION *@
+    <div style="height: 500px; border-radius:10px;overflow:auto" class="d-flex flex-column align-items-center pt-1">
+        
+        @foreach (var item in availables)
+        {
+            <div class="card mb-3 shadow" style="width: 100%; border-radius:10px;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.ccode - @item.cname</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.tname</h6>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary h-75 pt-2" href="/Appointments/Reservation?id=@item.id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (availables_c != null)
+        {
+            @foreach (var item in availables_c)
+            {
+                <div class="card mb-3 shadow" style="width: 99%; border-radius:10px;">
+                    <div class="card-body row">
+                        <div class="col-md-8">
+                            <h5 class="card-title fw-bold">@item.ccode - @item.cname</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@item.tname</h6>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-end">
+                            <a class="btn btn-sm btn-primary h-75 pt-2" href="/Appointments/Reservation?id=@item.id">Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else{
+            @foreach (var item in availables_cc)
+            {
+                <div class="card mb-3 shadow" style="width: 99%; border-radius:10px;">
+                    <div class="card-body row">
+                        <div class="col-md-8">
+                            <h5 class="card-title fw-bold">@item.ccode - @item.cname</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@item.tname</h6>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-end">
+                            <a class="btn btn-sm btn-primary h-75 pt-2" href="/Appointments/Reservation?id=@item.id">Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+</body>

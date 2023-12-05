@@ -1,0 +1,89 @@
+﻿@page
+@model TutoringSys_core.Pages.Appointments.ReservedModel
+@{
+    if (Model.role == "Student")
+    {
+        Layout = "_DashLayout";
+    }
+    if (Model.role == "Tutor")
+    {
+        Layout = "_TutorDashLayout";
+    }
+    
+}
+@* RESERVED SESSIONS SECTION *@
+<div class="row container-md">
+    <div class="col-md-6">
+        <label class="fs-2 fw-bold mb-2 custom-color">My Sessions</label>
+    </div>
+</div>
+
+@* Reserved SESSIONS SECTION *@
+<div style="border-radius:10px;overflow:auto" class="bg-light d-flex flex-column align-items-center pt-1">
+    @if (Model.role == "Tutor")
+    {
+        var availables_t = from reserved in @Model.db.ReservedSessions
+                           join student in @Model.db.Students on reserved.StudentId equals student.StId
+                           join course in @Model.db.Courses on reserved.CourseCode equals course.Code
+                           where reserved.TutorId == Model.user_id
+                           select new
+                           {
+
+                               id = reserved.Id,
+                               ccode = course.Code,
+                               cname = course.Name,
+                               cred = course.Credit,
+                               sname = student.Fullnames,
+                               date = reserved.DateTime
+                           };
+        @foreach (var item in availables_t)
+        {
+            <div class="card mb-3 shadow" style="width: 100%; border-radius:10px;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.ccode - @item.cname</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Reserved by: @item.sname</h6>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+
+                        <a class="btn btn-sm btn-primary h-75 pt-2" href="/Appointments/Reservation_Cancel?id=@item.id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.role == "Student")
+    {
+        var availables_s = from reserved in @Model.db.ReservedSessions
+                           join tutor in @Model.db.Tutors on reserved.TutorId equals tutor.TrId
+                           join course in @Model.db.Courses on reserved.CourseCode equals course.Code
+                           where reserved.StudentId == int.Parse(Model.user_id)
+                           select new
+                           {
+
+                               id = reserved.Id,
+                               ccode = course.Code,
+                               cname = course.Name,
+                               cred = course.Credit,
+                               tname = tutor.Fullnames,
+                               date = reserved.DateTime
+                           };
+        @foreach (var item in availables_s)
+        {
+            <div class="card mb-3 shadow" style="width: 100%; border-radius:10px;">
+                <div class="card-body row">
+                    <div class="col-md-8">
+                        <h5 class="card-title fw-bold">@item.ccode - @item.cname</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.tname</h6>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary h-75 pt-2" href="/Appointments/Reservation_Cancel?id=@item.id">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+
+</div>
